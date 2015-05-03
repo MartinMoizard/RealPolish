@@ -1,0 +1,40 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'start',
+1 verbose cli   '--',
+1 verbose cli   '--root',
+1 verbose cli   '/Users/martin/Development/realpolish/ios/RealPolish/ReactComponent' ]
+2 info using npm@2.1.6
+3 info using node@v0.10.33
+4 verbose node symlink /usr/local/bin/node
+5 verbose run-script [ 'prestart', 'start', 'poststart' ]
+6 info prestart react-native@0.4.1
+7 info start react-native@0.4.1
+8 verbose unsafe-perm in lifecycle true
+9 info react-native@0.4.1 Failed to exec start script
+10 verbose stack Error: react-native@0.4.1 start: `./packager/packager.sh --root /Users/martin/Development/realpolish/ios/RealPolish/ReactComponent`
+10 verbose stack Exit status 1
+10 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:212:16)
+10 verbose stack     at ChildProcess.emit (events.js:98:17)
+10 verbose stack     at maybeClose (child_process.js:756:16)
+10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:823:5)
+11 verbose pkgid react-native@0.4.1
+12 verbose cwd /Users/martin/Development/realpolish/ios/RealPolish/Pods/React
+13 error Darwin 14.1.0
+14 error argv "node" "/usr/local/bin/npm" "run" "start" "--" "--root" "/Users/martin/Development/realpolish/ios/RealPolish/ReactComponent"
+15 error node v0.10.33
+16 error npm  v2.1.6
+17 error code ELIFECYCLE
+18 error react-native@0.4.1 start: `./packager/packager.sh --root /Users/martin/Development/realpolish/ios/RealPolish/ReactComponent`
+18 error Exit status 1
+19 error Failed at the react-native@0.4.1 start script.
+19 error This is most likely a problem with the react-native package,
+19 error not with npm itself.
+19 error Tell the author that this fails on your system:
+19 error     ./packager/packager.sh --root /Users/martin/Development/realpolish/ios/RealPolish/ReactComponent
+19 error You can get their info via:
+19 error     npm owner ls react-native
+19 error There is likely additional logging output above.
+20 verbose exit [ 1, true ]

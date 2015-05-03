@@ -1,0 +1,23 @@
+PODS:
+  - Mantle (2.0):
+    - Mantle/extobjc (= 2.0)
+  - Mantle/extobjc (2.0)
+  - React (0.4.1):
+    - React/Core (= 0.4.1)
+  - React/Core (0.4.1)
+  - React/RCTText (0.4.1):
+    - React/Core
+  - TMCache (2.0.0)
+
+DEPENDENCIES:
+  - Mantle (~> 2.0)
+  - React
+  - React/RCTText
+  - TMCache (~> 2.0)
+
+SPEC CHECKSUMS:
+  Mantle: 17de73ef929db2234d76fde2aacfb89ab11c61e8
+  React: 8574061eabd2b790dd366403345ab1b0be4c0f19
+  TMCache: 126b131e986f359be95c50d4816661b64f43f98c
+
+COCOAPODS: 0.36.3
