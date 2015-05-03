@@ -9,13 +9,24 @@ var {
 } = React;
 
 var styles = require("./style");
+var LessonsManager = require('NativeModules').RPLessonsManager;
 
 var ViewReactClass = React.createClass({
 	getInitialState: function() {
 		return {
-			loaded: false
+			loaded: false,
+			lessons: []
 		};
 	},
+	componentDidMount: function() {
+		var self = this;
+    	LessonsManager.cachedLessons((error, cachedLessons) => {
+    		self.setState({
+    			loaded: true,
+    			lessons: cachedLessons
+    		});
+    	});
+  	},
 	render: function() {
 		if (!this.state.loaded) {
 			return(
@@ -31,7 +42,11 @@ var ViewReactClass = React.createClass({
 	},
 	renderListView: function() {
 		return (
-			<View /> // Todo
+			<View style={styles.container}>
+	       	<Text style={styles.loadingText}>
+	        	{this.state.lessons[0].title}
+	       	</Text>
+	     	</View>
 		);
 	},
 });

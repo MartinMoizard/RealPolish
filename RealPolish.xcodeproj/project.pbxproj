@@ -12,6 +12,8 @@
 		5B32339E1AF670540070B5AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B32339D1AF670540070B5AB /* Images.xcassets */; };
 		5B3233A11AF670540070B5AB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B32339F1AF670540070B5AB /* LaunchScreen.xib */; };
 		5B3233AD1AF670540070B5AB /* RealPolishTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3233AC1AF670540070B5AB /* RealPolishTests.m */; };
+		5BFEA4C21AF6C31A0058BDE1 /* RPLessonsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */; };
+		5BFEA4C61AF6C4270058BDE1 /* RPLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFEA4C51AF6C4270058BDE1 /* RPLesson.m */; };
 		EDCA105B3D8A6CD417C8802D /* libPods-RealPolish.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4988DD1BEEEC7B7C4EAAEACA /* libPods-RealPolish.a */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,10 @@
 		5B3233A61AF670540070B5AB /* RealPolishTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RealPolishTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B3233AB1AF670540070B5AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B3233AC1AF670540070B5AB /* RealPolishTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealPolishTests.m; sourceTree = "<group>"; };
+		5BFEA4C01AF6C31A0058BDE1 /* RPLessonsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLessonsManager.h; sourceTree = "<group>"; };
+		5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLessonsManager.m; sourceTree = "<group>"; };
+		5BFEA4C41AF6C4270058BDE1 /* RPLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLesson.h; sourceTree = "<group>"; };
+		5BFEA4C51AF6C4270058BDE1 /* RPLesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLesson.m; sourceTree = "<group>"; };
 		9ABF40ADABA8A6C86F61D91F /* Pods-RealPolish.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealPolish.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RealPolish/Pods-RealPolish.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +89,8 @@
 		5B32338F1AF670540070B5AB /* RealPolish */ = {
 			isa = PBXGroup;
 			children = (
+				5BFEA4C31AF6C4070058BDE1 /* Models */,
+				5BFEA4BF1AF6C30A0058BDE1 /* Modules */,
 				5B3233941AF670540070B5AB /* AppDelegate.h */,
 				5B3233951AF670540070B5AB /* AppDelegate.m */,
 				5B32339D1AF670540070B5AB /* Images.xcassets */,
@@ -116,6 +124,24 @@
 				5B3233AB1AF670540070B5AB /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5BFEA4BF1AF6C30A0058BDE1 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				5BFEA4C01AF6C31A0058BDE1 /* RPLessonsManager.h */,
+				5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		5BFEA4C31AF6C4070058BDE1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5BFEA4C41AF6C4270058BDE1 /* RPLesson.h */,
+				5BFEA4C51AF6C4270058BDE1 /* RPLesson.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		A72064CBA267C6E487018055 /* Pods */ = {
@@ -285,6 +311,8 @@
 			files = (
 				5B3233961AF670540070B5AB /* AppDelegate.m in Sources */,
 				5B3233931AF670540070B5AB /* main.m in Sources */,
+				5BFEA4C21AF6C31A0058BDE1 /* RPLessonsManager.m in Sources */,
+				5BFEA4C61AF6C4270058BDE1 /* RPLesson.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
