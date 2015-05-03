@@ -3,25 +3,32 @@
 var React = require('react-native');
 
 var {
-  Text,
-  View
+  AppRegistry,
+  StyleSheet,
+  NavigatorIOS,
 } = React;
 
-var styles = React.StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'red'
+var LessonsView = require('./App/Views/Lessons');
+
+var RealPolish = React.createClass({
+  render: function() {
+    return (
+      <NavigatorIOS
+        style={styles.container}
+        barTintColor='#B11E26'
+        titleTextColor='white'
+        initialRoute={{
+          title: 'Real Polish',
+          component: LessonsView,
+        }}/>
+    );
   }
 });
 
-class RealPolish extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>This is a simple application.</Text>
-      </View>
-    )
-  }
-}
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 React.AppRegistry.registerComponent('RealPolish', () => RealPolish);
