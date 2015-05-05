@@ -21,10 +21,12 @@ var ViewReactClass = React.createClass({
 	componentDidMount: function() {
 		var self = this;
     	LessonsManager.cachedLessons((error, cachedLessons) => {
-    		self.setState({
-    			loaded: true,
-    			lessons: cachedLessons
-    		});
+    		if (!error) {
+	    		self.setState({
+	    			loaded: true,
+	    			lessons: cachedLessons
+	    		});
+    		}
     	});
   	},
 	render: function() {

@@ -36,6 +36,12 @@
 #define COCOAPODS_VERSION_MINOR_React_RCTText 4
 #define COCOAPODS_VERSION_PATCH_React_RCTText 1
 
+// React/RCTWebSocketDebugger
+#define COCOAPODS_POD_AVAILABLE_React_RCTWebSocketDebugger
+#define COCOAPODS_VERSION_MAJOR_React_RCTWebSocketDebugger 0
+#define COCOAPODS_VERSION_MINOR_React_RCTWebSocketDebugger 4
+#define COCOAPODS_VERSION_PATCH_React_RCTWebSocketDebugger 1
+
 // TMCache
 #define COCOAPODS_POD_AVAILABLE_TMCache
 #define COCOAPODS_VERSION_MAJOR_TMCache 2
