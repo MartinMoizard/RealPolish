@@ -7,6 +7,7 @@ target 'RealPolish' do
 	pod 'React/RCTWebSocketDebugger'
 	pod 'Mantle', '~> 2.0'
 	pod 'TMCache', '~> 2.0'
+	pod 'AFNetworking', '~> 2.5'
 end
 
 target 'RealPolishTests' do

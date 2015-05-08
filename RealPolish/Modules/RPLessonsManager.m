@@ -12,6 +12,7 @@
 #import <RCTUtils.h>
 #import <Mantle/Mantle.h>
 #import <TMCache/TMCache.h>
+#import <AFNetworking/AFNetworking.h>
 
 static NSString * kRPLessonsKey = @"lessons";
 
@@ -50,8 +51,5 @@ RCT_EXPORT_METHOD(cachedLessons:(RCTResponseSenderBlock)callback)
         callback(@[rctError]);
     }];
 }
-
-#pragma mark -
-#pragma mark Private
 
 @end
