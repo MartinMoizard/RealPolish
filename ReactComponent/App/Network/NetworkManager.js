@@ -5,15 +5,8 @@ module.exports = {
   getLessons: function(onSuccess, onError) {
     var lessonsRemoteUrl = API_URL + LESSONS_PATH;
     fetch(lessonsRemoteUrl)
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        onSuccess(json);
-      })
-      .catch(function(exc) {
-        onError(exc);
-      })
-      .done()
+      .then(response => response.json())
+      .then(json => onSuccess(json))
+      .catch(error => onError(error))
   }
 };
