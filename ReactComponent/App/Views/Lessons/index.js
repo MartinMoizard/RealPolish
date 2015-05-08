@@ -9,9 +9,25 @@ var {
 } = React;
 
 var styles = require("./style");
+var LessonActionCreators = require('../../Actions/RealLessonActionCreators');
 var LessonsManager = require('NativeModules').RPLessonsManager;
 var NetworkManager = require('../../Network/NetworkManager');
-var LessonActionCreators = require('../../Actions/RealLessonActionCreators');
+var LessonStore = require('../../Stores/LessonStore');
+
+function getStateFromStores() {
+  return {
+  	lessons: LessonStore.getAll(),
+  	loaded: true
+  };
+}
+
+function refreshLocalLessonsFromServer() {
+	NetworkManager.getLessons(function(remoteLessons) {
+		LessonActionCreators.receiveLessons(remoteLessons);
+	}, function(error) {
+		// Nothing to do, will be useful if adding a pull to refresh
+	});
+}
 
 var ViewReactClass = React.createClass({
 	getInitialState: function() {
@@ -20,23 +36,16 @@ var ViewReactClass = React.createClass({
 			lessons: []
 		};
 	},
+
 	componentDidMount: function() {
-		var self = this;
-		NetworkManager.getLessons(function(remoteLessons) {
-			LessonActionCreators.receiveLessons(remoteLessons);
-		}, function(error) {
-			// Nothing to do, will be useful if adding a pull to refresh
-		});
-    /*	LessonsManager.cachedLessons((error, cachedLessons) => {
-    		if (!error) {
-	    		self.setState({
-	    			loaded: true,
-	    			lessons: cachedLessons
-	    		});
-    		}
-    	});
-    */
+		LessonStore.addChangeListener(this._onChange);
+		refreshLocalLessonsFromServer();
   	},
+
+  	componentWillUnmount: function() {
+    	LessonStore.removeChangeListener(this._onChange);
+  	},
+
 	render: function() {
 		if (!this.state.loaded) {
 			return(
@@ -47,9 +56,17 @@ var ViewReactClass = React.createClass({
 	     		</View>
 	      	);
 		} else {
-			return this.renderListView()
+			return(
+	        	<View style={styles.container}>
+	       		<Text style={styles.loadingText}>
+	         		loaded
+	        	</Text>
+	     		</View>
+	      	);
+			//return this.renderListView()
 		}
 	},
+
 	renderListView: function() {
 		return (
 			<View style={styles.container}>
@@ -59,6 +76,10 @@ var ViewReactClass = React.createClass({
 	     	</View>
 		);
 	},
+
+	_onChange: function() {
+    	this.setState(getStateFromStores());
+  	},
 });
 
 module.exports = ViewReactClass;

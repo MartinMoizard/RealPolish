@@ -8,6 +8,8 @@
   "dependencies": {
     "react-native": "^0.4.1",
     "flux": "2.0.3",
-    "keyMirror": "0.1.1"
+    "keymirror": "~0.1.1",
+    "object-assign": "^1.0.0",
+    "events": "1.0.2"
   }
 }
