@@ -12,13 +12,7 @@ var styles = require("./style");
 var LessonActionCreators = require('../../Actions/RealLessonActionCreators');
 var NetworkManager = require('../../Network/NetworkManager');
 var LessonStore = require('../../Stores/LessonStore');
-
-function getStateFromStores() {
-  return {
-  	lessons: LessonStore.getAll(),
-  	loaded: true
-  };
-}
+var LessonCell = require("./Elements/LessonCell")
 
 function refreshLocalLessonsFromServer() {
 	NetworkManager.getLessons(function(remoteLessons) {
@@ -29,10 +23,17 @@ function refreshLocalLessonsFromServer() {
 }
 
 var ViewReactClass = React.createClass({
+	getStateFromStores: function() {
+  		return {
+  			dataSource: this.state.dataSource.cloneWithRows(LessonStore.getAll()),
+  			loaded: true
+  		};
+	},
+
 	getInitialState: function() {
 		return {
-			loaded: false,
-			lessons: []
+			dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2}),
+			loaded: false
 		};
 	},
 
@@ -61,16 +62,27 @@ var ViewReactClass = React.createClass({
 
 	renderListView: function() {
 		return (
-			<View style={styles.container}>
-	       	<Text style={styles.loadingText}>
-	        	{this.state.lessons[0].title}
-	       	</Text>
-	     	</View>
+			<ListView
+        		dataSource={this.state.dataSource}
+        		renderRow={this.renderLessonCell}
+        		style={styles.lessonsListView} />
 		);
 	},
 
+	renderLessonCell: function(lesson) {
+	    return(
+	    	<LessonCell
+	    	onSelect={() => this.selectLesson(lesson)}
+	        lesson={lesson} />
+	    );
+	},
+	
+	selectLesson: function () {
+
+	},
+
 	_onChange: function() {
-    	this.setState(getStateFromStores());
+    	this.setState(this.getStateFromStores());
   	},
 });
 

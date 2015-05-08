@@ -19,5 +19,8 @@ module.exports = StyleSheet.create({
     marginBottom: 10,
     marginRight: 10,
     color: 'black'
+  },
+  lessonsListView:{
+    backgroundColor: '#F6F6EF',
   }
 });
