@@ -13,6 +13,7 @@ var LessonActionCreators = require('../../Actions/RealLessonActionCreators');
 var NetworkManager = require('../../Network/NetworkManager');
 var LessonStore = require('../../Stores/LessonStore');
 var LessonCell = require("./Elements/LessonCell")
+var LessonView = require("../Lesson")
 
 function refreshLocalLessonsFromServer() {
 	NetworkManager.getLessons(function(remoteLessons) {
@@ -70,15 +71,19 @@ var ViewReactClass = React.createClass({
 	},
 
 	renderLessonCell: function(lesson) {
-	    return(
+	    return (
 	    	<LessonCell
 	    	onSelect={() => this.selectLesson(lesson)}
 	        lesson={lesson} />
 	    );
 	},
 	
-	selectLesson: function () {
-
+	selectLesson: function (lesson) {
+		this.props.navigator.push({
+	      title: lesson.title,
+	      component: LessonView,
+	      passProps: {lesson: lesson}
+    	});
 	},
 
 	_onChange: function() {

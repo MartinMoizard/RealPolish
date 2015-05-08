@@ -20,6 +20,7 @@ var RealPolish = React.createClass({
         initialRoute={{
           title: 'Real Polish',
           component: LessonsView,
+          backButtonTitle: 'Back'
         }}/>
     );
   }
