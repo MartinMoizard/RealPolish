@@ -1,6 +1,7 @@
 var AppDispatcher = require('../Dispatcher/RealPolishAppDispatcher');
 var ActionTypes = require('../Constants/RealConstants').ActionTypes;
 var EventEmitter = require('events').EventEmitter;
+var LessonsManager = require('NativeModules').RPLessonsManager;
 var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
@@ -10,6 +11,7 @@ var _lessons = [];
 var LessonStore = assign({}, EventEmitter.prototype, {
 	refresh: function(remoteLessons) {
 		_lessons = remoteLessons;
+		LessonsManager.refreshLessonsWith(remoteLessons);
   },
 
 	emitChange: function() {

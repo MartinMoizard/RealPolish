@@ -10,7 +10,6 @@ var {
 
 var styles = require("./style");
 var LessonActionCreators = require('../../Actions/RealLessonActionCreators');
-var LessonsManager = require('NativeModules').RPLessonsManager;
 var NetworkManager = require('../../Network/NetworkManager');
 var LessonStore = require('../../Stores/LessonStore');
 
@@ -56,14 +55,7 @@ var ViewReactClass = React.createClass({
 	     		</View>
 	      	);
 		} else {
-			return(
-	        	<View style={styles.container}>
-	       		<Text style={styles.loadingText}>
-	         		loaded
-	        	</Text>
-	     		</View>
-	      	);
-			//return this.renderListView()
+			return this.renderListView()
 		}
 	},
 
