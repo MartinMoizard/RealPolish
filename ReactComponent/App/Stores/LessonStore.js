@@ -28,7 +28,11 @@ var LessonStore = assign({}, EventEmitter.prototype, {
 
   getAll: function() {
     return _lessons;
-  }
+  },
+
+  isDownloaded: function(lessonId) {
+    return false;
+  },
 });
 
 LessonStore.dispatchToken = AppDispatcher.register(function(action) {

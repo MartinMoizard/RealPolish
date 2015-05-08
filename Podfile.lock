@@ -26,6 +26,8 @@ PODS:
   - React (0.4.1):
     - React/Core (= 0.4.1)
   - React/Core (0.4.1)
+  - React/RCTImage (0.4.1):
+    - React/Core
   - React/RCTNetwork (0.4.1):
     - React/Core
   - React/RCTText (0.4.1):
@@ -38,6 +40,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.5)
   - Mantle (~> 2.0)
   - React
+  - React/RCTImage
   - React/RCTNetwork
   - React/RCTText
   - React/RCTWebSocketDebugger
@@ -49,4 +52,4 @@ SPEC CHECKSUMS:
   React: 8574061eabd2b790dd366403345ab1b0be4c0f19
   TMCache: 126b131e986f359be95c50d4816661b64f43f98c
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.37.1

@@ -9,7 +9,7 @@ var {
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F6EF',
+    backgroundColor: '#D8D8D8',
     marginTop: 64,
   },
   loadingText: {
@@ -21,6 +21,6 @@ module.exports = StyleSheet.create({
     color: 'black'
   },
   lessonsListView:{
-    backgroundColor: '#F6F6EF',
+    backgroundColor: '#D8D8D8',
   }
 });

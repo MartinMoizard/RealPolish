@@ -72,6 +72,12 @@
 #define COCOAPODS_VERSION_MINOR_React_Core 4
 #define COCOAPODS_VERSION_PATCH_React_Core 1
 
+// React/RCTImage
+#define COCOAPODS_POD_AVAILABLE_React_RCTImage
+#define COCOAPODS_VERSION_MAJOR_React_RCTImage 0
+#define COCOAPODS_VERSION_MINOR_React_RCTImage 4
+#define COCOAPODS_VERSION_PATCH_React_RCTImage 1
+
 // React/RCTNetwork
 #define COCOAPODS_POD_AVAILABLE_React_RCTNetwork
 #define COCOAPODS_VERSION_MAJOR_React_RCTNetwork 0

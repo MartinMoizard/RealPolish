@@ -2,17 +2,25 @@
 
 var React = require('react-native');
 
+var LessonStore = require('../../Stores/LessonStore');
+
 var styles = require("./style");
+var DownloadView = require("./Elements/Download")
 
 var {
   Text,
   View
 } = React;
 
+function getStateFromStore() {
+	return {
+		downloaded: LessonStore.isDownloaded(1)
+	};
+}
+
 var ViewReactClass = React.createClass({
 	getInitialState: function() {
-		return {
-		};
+		return getStateFromStore();
 	},
 
 	componentDidMount: function() {
@@ -22,14 +30,22 @@ var ViewReactClass = React.createClass({
   	},
 
 	render: function() {
+		if (!this.props.downloaded) {
+			return this.renderDownloadView();
+		} else {
+			return this.renderLessonList();
+		}
+	},
+
+	renderDownloadView: function() {
 		return(
-	        	<View style={styles.container}>
-	       		<Text style={styles.text}>
-	         		{this.props.lesson.title}
-	        	</Text>
-	     		</View>
+	        	<DownloadView />
 	      	);
 	},
+
+	renderLessonList: function() {
+
+	}
 });
 
 module.exports = ViewReactClass;

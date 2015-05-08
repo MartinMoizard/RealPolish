@@ -3,6 +3,7 @@ platform :ios, '8.0'
 
 target 'RealPolish' do
 	pod 'React'
+	pod 'React/RCTImage'
 	pod 'React/RCTText'
 	pod 'React/RCTWebSocketDebugger'
 	pod 'React/RCTNetwork'
