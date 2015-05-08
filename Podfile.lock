@@ -26,6 +26,8 @@ PODS:
   - React (0.4.1):
     - React/Core (= 0.4.1)
   - React/Core (0.4.1)
+  - React/RCTNetwork (0.4.1):
+    - React/Core
   - React/RCTText (0.4.1):
     - React/Core
   - React/RCTWebSocketDebugger (0.4.1):
@@ -36,6 +38,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.5)
   - Mantle (~> 2.0)
   - React
+  - React/RCTNetwork
   - React/RCTText
   - React/RCTWebSocketDebugger
   - TMCache (~> 2.0)

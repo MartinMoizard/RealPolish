@@ -1,5 +1,5 @@
 var AppDispatcher = require('../Dispatcher/RealPolishAppDispatcher');
-var ActionTypes = require('../Constants/RealConstants');
+var ActionTypes = require('../Constants/RealConstants').ActionTypes;
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
@@ -32,8 +32,8 @@ var LessonStore = assign({}, EventEmitter.prototype, {
 LessonStore.dispatchToken = AppDispatcher.register(function(action) {
   switch(action.type) {
     case ActionTypes.RECEIVE_REMOTE_LESSONS:
-      ThreadStore.refresh(action.remoteLessons);
-      ThreadStore.emitChange();
+      LessonStore.refresh(action.remoteLessons);
+      LessonStore.emitChange();
       break;
 
     default:
