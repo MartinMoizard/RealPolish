@@ -10,6 +10,8 @@ var {
 
 var styles = require("./style");
 var LessonsManager = require('NativeModules').RPLessonsManager;
+var NetworkManager = require('../../Network/NetworkManager');
+var LessonActionCreators = require('../../Actions/RealLessonActionCreators');
 
 var ViewReactClass = React.createClass({
 	getInitialState: function() {
@@ -20,7 +22,12 @@ var ViewReactClass = React.createClass({
 	},
 	componentDidMount: function() {
 		var self = this;
-    	LessonsManager.cachedLessons((error, cachedLessons) => {
+		NetworkManager.getLessons(function(remoteLessons) {
+			LessonActionCreators.receiveLessons(remoteLessons);
+		}, function(error) {
+			// Nothing to do, will be useful if adding a pull to refresh
+		});
+    /*	LessonsManager.cachedLessons((error, cachedLessons) => {
     		if (!error) {
 	    		self.setState({
 	    			loaded: true,
@@ -28,6 +35,7 @@ var ViewReactClass = React.createClass({
 	    		});
     		}
     	});
+    */
   	},
 	render: function() {
 		if (!this.state.loaded) {
