@@ -30,9 +30,15 @@ var LessonStore = assign({}, EventEmitter.prototype, {
     return _lessons;
   },
 
-  isDownloaded: function(lessonId) {
+  isDownloaded: function(lesson) {
     return false;
   },
+
+  download: function(lesson) {
+    LessonsManager.downloadStoryOfLesson(lesson, (error, nic) => {
+    });
+  },
+  
 });
 
 LessonStore.dispatchToken = AppDispatcher.register(function(action) {

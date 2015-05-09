@@ -1,0 +1,16 @@
+//
+//  RealPolish-Prefix.pch
+//  RealPolish
+//
+//  Created by Martin Moizard on 09/05/15.
+//  Copyright (c) 2015 Martin Moizard. All rights reserved.
+//
+
+#ifndef RealPolish_RealPolish_Prefix_pch
+#define RealPolish_RealPolish_Prefix_pch
+
+#ifndef DEBUG
+#define NSLog(...);
+#endif
+
+#endif

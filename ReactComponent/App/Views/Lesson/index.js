@@ -12,15 +12,15 @@ var {
   View
 } = React;
 
-function getStateFromStore() {
-	return {
-		downloaded: LessonStore.isDownloaded(1)
-	};
-}
-
 var ViewReactClass = React.createClass({
+	getStateFromStore: function() {
+		return {
+			downloaded: LessonStore.isDownloaded(this.props.lesson)
+		};
+	},
+
 	getInitialState: function() {
-		return getStateFromStore();
+		return this.getStateFromStore();
 	},
 
 	componentDidMount: function() {
@@ -39,7 +39,7 @@ var ViewReactClass = React.createClass({
 
 	renderDownloadView: function() {
 		return(
-	        	<DownloadView />
+	        	<DownloadView lesson={this.props.lesson}/>
 	      	);
 	},
 

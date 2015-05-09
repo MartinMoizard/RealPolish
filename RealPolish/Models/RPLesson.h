@@ -10,7 +10,7 @@
 
 @interface RPLesson : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, readonly) NSInteger lessonId;
+@property (nonatomic, readonly) NSNumber *lessonId;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *story;
 @property (nonatomic, strong) NSString *pov;

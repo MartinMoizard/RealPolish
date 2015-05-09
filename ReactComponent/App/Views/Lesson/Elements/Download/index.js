@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var LessonStore = require('../../../../Stores/LessonStore');
 
 var {
   Text,
@@ -28,7 +29,7 @@ var DownloadView = React.createClass({
   },
 
   _onDownload: function() {
-
+    LessonStore.download(this.props.lesson);
   }
 });
 

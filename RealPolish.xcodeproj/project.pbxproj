@@ -40,6 +40,7 @@
 		5B3233A61AF670540070B5AB /* RealPolishTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RealPolishTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B3233AB1AF670540070B5AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B3233AC1AF670540070B5AB /* RealPolishTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealPolishTests.m; sourceTree = "<group>"; };
+		5B7C1F541AFEB15500517E5E /* RealPolish-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RealPolish-Prefix.pch"; sourceTree = "<group>"; };
 		5BFEA4C01AF6C31A0058BDE1 /* RPLessonsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLessonsManager.h; sourceTree = "<group>"; };
 		5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLessonsManager.m; sourceTree = "<group>"; };
 		5BFEA4C41AF6C4270058BDE1 /* RPLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLesson.h; sourceTree = "<group>"; };
@@ -105,6 +106,7 @@
 			children = (
 				5B3233911AF670540070B5AB /* Info.plist */,
 				5B3233921AF670540070B5AB /* main.m */,
+				5B7C1F541AFEB15500517E5E /* RealPolish-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -431,6 +433,7 @@
 			baseConfigurationReference = 9ABF40ADABA8A6C86F61D91F /* Pods-RealPolish.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "RealPolish/RealPolish-Prefix.pch";
 				INFOPLIST_FILE = RealPolish/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -442,6 +445,7 @@
 			baseConfigurationReference = 2F4D3F7486148E371C4506F5 /* Pods-RealPolish.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "RealPolish/RealPolish-Prefix.pch";
 				INFOPLIST_FILE = RealPolish/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
