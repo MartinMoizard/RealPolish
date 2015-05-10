@@ -17,7 +17,6 @@ var LessonStore = assign({}, EventEmitter.prototype, {
     _.each(_lessons, function(lesson) {
       lesson.isDownloaded = false; 
       LessonsManager.isDownloaded(lesson, (error, result) => {
-        console.log("down : " + result);
         lesson.isDownloaded = result;
       });
     });

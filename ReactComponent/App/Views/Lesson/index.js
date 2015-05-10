@@ -9,7 +9,9 @@ var DownloadView = require("./Elements/Download")
 
 var {
   Text,
-  View
+  View,
+  TouchableOpacity,
+  Image,
 } = React;
 
 var ViewReactClass = React.createClass({
@@ -46,12 +48,37 @@ var ViewReactClass = React.createClass({
 	renderLessonList: function() {
 		return (
 				<View style={styles.container}>
-		        <Text style={styles.text}>	
-		          Lesson downloaded
-		        </Text>
+					<View style={styles.header}>
+						<View style={styles.backContainer}>
+						<TouchableOpacity onPress={this._onBackTapped}>
+          					<Image
+            					style={styles.backButton}
+            					source={require('image!back')} />
+        				</TouchableOpacity>
+        				</View>
+        				<View style={styles.headerContent}>
+	        				<Image
+	        				  style={styles.lessonImage}
+	        				  source={require('image!polishflag')} />
+	        				<Text style={styles.lessonTitle}>
+        						{this.props.lesson.title}
+        					</Text>
+        					<Text style={styles.lessonSubtitle}>
+        						Lesson #{this.props.lesson.id}
+        					</Text>
+        				</View>
+
+					</View>
+		        	<Text style={styles.text}>	
+		          		Lesson downloaded
+		        	</Text>
       			</View>
 			);
-	}
+	},
+
+	_onBackTapped: function() {
+		this.props.navigator.pop();
+	},
 });
 
 module.exports = ViewReactClass;

@@ -15,7 +15,7 @@ var RealPolish = React.createClass({
     return (
       <NavigatorIOS
         style={styles.container}
-        barTintColor='#B11E26'
+        barTintColor='#E45C4E'
         titleTextColor='white'
         initialRoute={{
           title: 'Real Polish',
