@@ -19,7 +19,7 @@ module.exports = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginRight: 10,
-    color: 'black'
+    color: 'black',
   },
 
   header: {
@@ -65,5 +65,9 @@ module.exports = StyleSheet.create({
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
     color: 'white',
+  },
+
+  itemsList: {
+    backgroundColor: 'white'
   }
 });
