@@ -44,6 +44,12 @@ var LessonStore = assign({}, EventEmitter.prototype, {
     });
   },
 
+  isDownloading: function(lesson, callback) {
+    LessonsManager.isDownloading(lesson, (error, downloadingCurrLess, downloadingOtherLesson) => {
+      callback(downloadingCurrLess, downloadingOtherLesson);
+    });
+  },
+
   download: function(lesson) {
     LessonsManager.downloadLesson(lesson);
   },

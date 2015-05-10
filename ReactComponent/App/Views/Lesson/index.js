@@ -9,11 +9,11 @@ var lessonItems = require("./lessonItems");
 
 var DownloadView = require("./Elements/Download");
 var LessonItemCell = require("./Elements/ItemCell");
+var HeaderView = require("./Elements/Header");
 
 var {
   Text,
   View,
-  TouchableOpacity,
   Image,
   ListView,
 } = React;
@@ -72,33 +72,17 @@ var ViewReactClass = React.createClass({
 
 	renderDownloadView: function() {
 		return (
-	        	<DownloadView lesson={this.props.lesson} />
+				<View style={styles.container}>
+					<HeaderView lesson={this.props.lesson} navigator={this.props.navigator} />
+					<DownloadView lesson={this.props.lesson} />
+				</View>
 	      	);
 	},
 
 	renderLessonList: function() {
 		return (
 				<View style={styles.container}>
-					<View style={styles.header}>
-						<TouchableOpacity onPress={this._onBackTapped}>
-						<View style={styles.backContainer}>
-          					<Image
-            					style={styles.backButton}
-            					source={require('image!back')} />
-        				</View>
-        				</TouchableOpacity>
-        				<View style={styles.headerContent}>
-	        				<Image
-	        				  style={styles.lessonImage}
-	        				  source={require('image!polishflag')} />
-	        				<Text style={styles.lessonTitle}>
-        						{this.props.lesson.title}
-        					</Text>
-        					<Text style={styles.lessonSubtitle}>
-        						Lesson #{this.props.lesson.id}
-        					</Text>
-        				</View>
-					</View>
+					<HeaderView lesson={this.props.lesson} navigator={this.props.navigator} />
 					<ListView
 						style={styles.itemsList}
         				dataSource={this.state.dataSource}
@@ -121,10 +105,6 @@ var ViewReactClass = React.createClass({
 
 	_onSelectLessonItem: function(lessonItem) {
 
-	},
-
-	_onBackTapped: function() {
-		this.props.navigator.pop();
 	},
 
 	_onChange: function() {

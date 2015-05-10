@@ -11,8 +11,8 @@
 
 #import <RCTBridge.h>
 #import <RCTEventDispatcher.h>
-
 #import <RCTUtils.h>
+
 #import <Mantle/Mantle.h>
 #import <TMCache/TMCache.h>
 #import <AFNetworking/AFNetworking.h>
@@ -63,15 +63,22 @@ RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary)
 {
     RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
     
+    if ([self isDownloadInProgress]) {
+        return;
+    }
+    
     void (^onError)(NSError *error) = ^void(NSError *error) {
         [self clearTemporaryPath];
         [self fireDownloadStateChanged];
     };
     
+    [self touchFileForLessonBeingDownloaded:lesson];
+    
     [self downloadFileWithRawUrl:lesson.story onSuccess:^{
         [self downloadFileWithRawUrl:lesson.pov onSuccess:^{
             [self downloadFileWithRawUrl:lesson.qa onSuccess:^{
                 [self downloadFileWithRawUrl:lesson.pdf onSuccess:^{
+                    [self clearTemporaryPath];
                     [self fireDownloadStateChanged];
                 } onError:onError];
             } onError:onError];
@@ -89,8 +96,9 @@ RCT_EXPORT_METHOD(isDownloaded:(NSDictionary *)lessonDictionary result:(RCTRespo
 RCT_EXPORT_METHOD(isDownloading:(NSDictionary *)lessonDictionary result:(RCTResponseSenderBlock)callback)
 {
     RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
-    BOOL result = [self isDownloading:lesson];
-    return callback(@[[NSNull null], @(result)]);
+    BOOL isDownloadingCurrentLesson = [self isDownloadingLesson:lesson];
+    BOOL isDownloadingOtherLesson = [self isDownloadingOtherLesson:lesson];
+    return callback(@[[NSNull null], @(isDownloadingCurrentLesson), @(isDownloadingOtherLesson)]);
 }
 
 RCT_EXPORT_METHOD(clearTemporaryPath)
@@ -118,6 +126,19 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
             NSLog(@"Could not touch folder at path %@ : %@", path, err);
         }
     }
+}
+
+- (NSString *)fileWitnessForLessonDownload:(RPLesson *)lesson
+{
+    return [[self tempPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.lesson", lesson.lessonId]];
+}
+
+- (void)touchFileForLessonBeingDownloaded:(RPLesson *)lesson
+{
+    NSString *fileToTouch = [self fileWitnessForLessonDownload:lesson];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    [fm createFileAtPath:fileToTouch contents:nil attributes:nil];
+    [self fireDownloadStateChanged];
 }
 
 /**
@@ -231,14 +252,64 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
     return YES;
 }
 
+- (BOOL)isLesson:(RPLesson *)lesson partiallyOrTotallyPresentInPath:(NSString *)aPath
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (NSString *rawUrl in @[lesson.story, lesson.pov, lesson.qa, lesson.pdf]) {
+        NSString *path = [self stringFilePathWithPath:aPath andRawFileUrl:rawUrl];
+        if ([fm fileExistsAtPath:path]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (BOOL)isDownloaded:(RPLesson *)lesson
 {
     return [self isLesson:lesson inPath:[self lessonPath]];
 }
 
-- (BOOL)isDownloading:(RPLesson *)lesson
+- (BOOL)isDownloadingLesson:(RPLesson *)lesson
 {
-    return [self isLesson:lesson inPath:[self tempPath]];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *target = [self fileWitnessForLessonDownload:lesson];
+    BOOL isDownloading = [fm fileExistsAtPath:target isDirectory:NULL];
+    return isDownloading;
+}
+
+- (NSNumber *)idOfLessonBeingDownloaded
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSArray *files = [fm contentsOfDirectoryAtPath:[self tempPath] error:&error];
+    if (error != nil) {
+        NSLog(@"Could not get content of temp directory : %@", error);
+    }
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"pathExtension='lesson'"];
+    NSArray *lessonFiles = [files filteredArrayUsingPredicate:filter];
+    if (lessonFiles && lessonFiles.count > 0) {
+        NSString *file = [lessonFiles firstObject];
+        [file stringByReplacingOccurrencesOfString:@".lesson" withString:@""];
+        return @([file integerValue]);
+    } else {
+        return nil;
+    }
+}
+
+- (BOOL)isDownloadingOtherLesson:(RPLesson *)lesson
+{
+    NSNumber *idOfLessonBeingDownloaded = [self idOfLessonBeingDownloaded];
+    if (idOfLessonBeingDownloaded != nil) {
+        BOOL res = ![idOfLessonBeingDownloaded isEqualToNumber:lesson.lessonId];
+        return res;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)isDownloadInProgress
+{
+    return [self idOfLessonBeingDownloaded] != nil;
 }
 
 - (void)fireDownloadStateChanged

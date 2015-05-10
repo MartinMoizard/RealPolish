@@ -8,13 +8,38 @@ var {
 
 module.exports = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#D8D8D8',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  
+  button: {
+    marginTop: 10,
+    width: 180,
+    height: 31,
+    backgroundColor: '#49BEBD',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   image: {
-    height: 185,
-    width: 154
+    marginTop: 40,
+    width: 123,
+    height: 112
+  },
+
+  text: {
+    fontSize: 14,
+    fontFamily: 'HelveticaNeue',
+    fontWeight: '200',
+    color: 'white',
+  },
+
+  inprogress: {
+    marginTop: 10,
+    fontSize: 14,
+    fontFamily: 'HelveticaNeue',
+    fontWeight: '200',
+    color: 'black',
   }
 });
