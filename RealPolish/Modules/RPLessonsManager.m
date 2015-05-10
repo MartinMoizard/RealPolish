@@ -9,14 +9,21 @@
 #import "RPLessonsManager.h"
 #import "RPLesson.h"
 
+#import <RCTBridge.h>
+#import <RCTEventDispatcher.h>
+
 #import <RCTUtils.h>
 #import <Mantle/Mantle.h>
 #import <TMCache/TMCache.h>
 #import <AFNetworking/AFNetworking.h>
 
 static NSString * kRPLessonsKey = @"lessons";
+static NSString * kRPDownloadStateChanged = @"DownloadStateChanged";
+static NSString * tempPath = nil;
 
 @implementation RPLessonsManager
+
+@synthesize bridge = _bridge;
 
 #pragma mark -
 #pragma mark RCT Interface
@@ -52,21 +59,20 @@ RCT_EXPORT_METHOD(cachedLessons:(RCTResponseSenderBlock)callback)
     }];
 }
 
-RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary onFinish:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary)
 {
     RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
     
     void (^onError)(NSError *error) = ^void(NSError *error) {
         [self clearTemporaryPath];
-        NSDictionary *rctError = RCTMakeError([error localizedDescription], error, nil);
-        callback(@[rctError]);
+        [self fireDownloadStateChanged];
     };
     
     [self downloadFileWithRawUrl:lesson.story onSuccess:^{
         [self downloadFileWithRawUrl:lesson.pov onSuccess:^{
             [self downloadFileWithRawUrl:lesson.qa onSuccess:^{
                 [self downloadFileWithRawUrl:lesson.pdf onSuccess:^{
-                    callback(@[[NSNull null]]);
+                    [self fireDownloadStateChanged];
                 } onError:onError];
             } onError:onError];
         } onError:onError];
@@ -92,6 +98,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
     NSFileManager *fm = [NSFileManager defaultManager];
     NSError *error = nil;
     [fm removeItemAtPath:[self tempPath] error:&error];
+    tempPath = nil;
     if (error != nil) {
         NSLog(@"Could not clear temporary path : %@", error);
     }
@@ -119,7 +126,6 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
  */
 - (NSString *)tempPath
 {
-    static NSString *tempPath = nil;
     if (!tempPath) {
         NSString *appDocDir = [self applicationDocumentsDirectory];
         tempPath = [appDocDir stringByAppendingPathComponent:@"temp"];
@@ -190,7 +196,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 {
     NSString *path = [self stringFilePathWithPath:[self tempPath]
                                     andRawFileUrl:fileRawUrl];
-    return [NSOutputStream outputStreamToFileAtPath:path append:NO];
+    return [NSOutputStream outputStreamToFileAtPath:path append:YES];
 }
 
 - (NSString *)applicationDocumentsDirectory
@@ -233,6 +239,11 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 - (BOOL)isDownloading:(RPLesson *)lesson
 {
     return [self isLesson:lesson inPath:[self tempPath]];
+}
+
+- (void)fireDownloadStateChanged
+{
+    [_bridge.eventDispatcher sendDeviceEventWithName:kRPDownloadStateChanged body:nil];
 }
 
 @end

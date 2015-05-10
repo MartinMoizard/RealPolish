@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var assign = require('object-assign');
+var React = require('react-native');
 var EventEmitter = require('events').EventEmitter;
 
 var AppDispatcher = require('../Dispatcher/RealPolishAppDispatcher');
@@ -7,19 +8,18 @@ var ActionTypes = require('../Constants/RealConstants').ActionTypes;
 var LessonsManager = require('NativeModules').RPLessonsManager;
 
 var CHANGE_EVENT = 'change';
+var DOWNLOAD_STATE_CHANGED_EVENT = "DownloadStateChanged";
 
 var _lessons = [];
+
+var {
+  DeviceEventEmitter
+} = React;
 
 var LessonStore = assign({}, EventEmitter.prototype, {
 	refresh: function(remoteLessons) {
 		_lessons = remoteLessons;
 		LessonsManager.refreshLessonsWith(remoteLessons);
-    _.each(_lessons, function(lesson) {
-      lesson.isDownloaded = false; 
-      LessonsManager.isDownloaded(lesson, (error, result) => {
-        lesson.isDownloaded = result;
-      });
-    });
   },
 
 	emitChange: function() {
@@ -38,13 +38,14 @@ var LessonStore = assign({}, EventEmitter.prototype, {
     return _lessons;
   },
 
-  isDownloaded: function(lesson) {
-    return false;
+  isDownloaded: function(lesson, callback) {
+    LessonsManager.isDownloaded(lesson, (error, result) => {
+      callback(result);
+    });
   },
 
   download: function(lesson) {
-    LessonsManager.downloadLesson(lesson, (error, nic) => {
-    });
+    LessonsManager.downloadLesson(lesson);
   },
 
 });
@@ -60,5 +61,12 @@ LessonStore.dispatchToken = AppDispatcher.register(function(action) {
       // do nothing
   }
 });
+
+DeviceEventEmitter.addListener(
+  DOWNLOAD_STATE_CHANGED_EVENT,
+  (notification) => {
+    LessonStore.emitChange();
+  }
+);
 
 module.exports = LessonStore;

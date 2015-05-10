@@ -19,41 +19,60 @@ var {
 } = React;
 
 var ViewReactClass = React.createClass({
-	getStateFromStore: function() {
-		if (this.props.lesson.isDownloaded) {
-			var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-			return {
-				downloaded: true,
-				dataSource: ds.cloneWithRows(lessonItems)
-			};
-		} else {
-			return {
-				downloaded: false
-			};
-		}
+	setStateFromStore: function() {
+		LessonStore.isDownloaded(this.props.lesson, result => {
+			if (result === true) {
+				this.setState({
+					loading: false,
+					downloaded: true,
+					dataSource: this.state.dataSource.cloneWithRows(lessonItems)
+				});
+			} else {
+				this.setState({
+					loading: false,
+					downloaded: false,
+					dataSource: this.state.dataSource
+				});
+			}
+		});
 	},
 
 	getInitialState: function() {
-		return this.getStateFromStore();
+		return {
+			loading: true,
+			downloaded: false,
+			dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+		};
 	},
 
 	componentDidMount: function() {
+		LessonStore.addChangeListener(this._onChange);
   	},
 
   	componentWillUnmount: function() {
+  		LessonStore.removeChangeListener(this._onChange);
   	},
 
 	render: function() {
-		if (this.state.downloaded === false) {
+		if (this.state.loading === true) {
+			return this.renderLoadingView();
+		} else if (this.state.downloaded === false) {
 			return this.renderDownloadView();
 		} else {
 			return this.renderLessonList();
 		}
 	},
 
+	renderLoadingView: function() {
+		this.setStateFromStore();
+		return (
+				<View />
+			);
+	},
+
 	renderDownloadView: function() {
 		return (
-	        	<DownloadView lesson={this.props.lesson}/>
+	        	<DownloadView lesson={this.props.lesson} />
 	      	);
 	},
 
@@ -106,6 +125,10 @@ var ViewReactClass = React.createClass({
 
 	_onBackTapped: function() {
 		this.props.navigator.pop();
+	},
+
+	_onChange: function() {
+		this.setStateFromStore();
 	},
 });
 
