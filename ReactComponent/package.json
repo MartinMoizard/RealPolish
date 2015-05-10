@@ -10,6 +10,7 @@
     "flux": "2.0.3",
     "keymirror": "~0.1.1",
     "object-assign": "^1.0.0",
-    "events": "1.0.2"
+    "events": "1.0.2",
+    "underscore": "1.8.3"
   }
 }

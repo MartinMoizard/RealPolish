@@ -1,8 +1,10 @@
+var _ = require('underscore');
+var assign = require('object-assign');
+var EventEmitter = require('events').EventEmitter;
+
 var AppDispatcher = require('../Dispatcher/RealPolishAppDispatcher');
 var ActionTypes = require('../Constants/RealConstants').ActionTypes;
-var EventEmitter = require('events').EventEmitter;
 var LessonsManager = require('NativeModules').RPLessonsManager;
-var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
@@ -12,6 +14,13 @@ var LessonStore = assign({}, EventEmitter.prototype, {
 	refresh: function(remoteLessons) {
 		_lessons = remoteLessons;
 		LessonsManager.refreshLessonsWith(remoteLessons);
+    _.each(_lessons, function(lesson) {
+      lesson.isDownloaded = false; 
+      LessonsManager.isDownloaded(lesson, (error, result) => {
+        console.log("down : " + result);
+        lesson.isDownloaded = result;
+      });
+    });
   },
 
 	emitChange: function() {

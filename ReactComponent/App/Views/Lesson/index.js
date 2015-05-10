@@ -15,7 +15,7 @@ var {
 var ViewReactClass = React.createClass({
 	getStateFromStore: function() {
 		return {
-			downloaded: LessonStore.isDownloaded(this.props.lesson)
+			downloaded: this.props.lesson.isDownloaded
 		};
 	},
 
@@ -30,7 +30,7 @@ var ViewReactClass = React.createClass({
   	},
 
 	render: function() {
-		if (!this.props.downloaded) {
+		if (this.state.downloaded === false) {
 			return this.renderDownloadView();
 		} else {
 			return this.renderLessonList();
@@ -38,13 +38,19 @@ var ViewReactClass = React.createClass({
 	},
 
 	renderDownloadView: function() {
-		return(
+		return (
 	        	<DownloadView lesson={this.props.lesson}/>
 	      	);
 	},
 
 	renderLessonList: function() {
-
+		return (
+				<View style={styles.container}>
+		        <Text style={styles.text}>	
+		          Lesson downloaded
+		        </Text>
+      			</View>
+			);
 	}
 });
 
