@@ -17,6 +17,7 @@ var RealPolish = React.createClass({
         style={styles.container}
         barTintColor='#E45C4E'
         titleTextColor='white'
+        navigationBarHidden={true}
         initialRoute={{
           title: 'Real Polish',
           component: LessonsView,

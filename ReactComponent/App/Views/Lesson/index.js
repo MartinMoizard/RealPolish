@@ -77,13 +77,13 @@ var ViewReactClass = React.createClass({
 		return (
 				<View style={styles.container}>
 					<View style={styles.header}>
-						<View style={styles.backContainer}>
 						<TouchableOpacity onPress={this._onBackTapped}>
+						<View style={styles.backContainer}>
           					<Image
             					style={styles.backButton}
             					source={require('image!back')} />
-        				</TouchableOpacity>
         				</View>
+        				</TouchableOpacity>
         				<View style={styles.headerContent}>
 	        				<Image
 	        				  style={styles.lessonImage}
@@ -100,7 +100,7 @@ var ViewReactClass = React.createClass({
 						style={styles.itemsList}
         				dataSource={this.state.dataSource}
         				renderRow={this.renderLessonItemCell}
-        				automaticallyAdjustContentInsets='false' />
+        				automaticallyAdjustContentInsets={false} />
 		        	<Text style={styles.text}>	
 		          		Lesson downloaded
 		        	</Text>

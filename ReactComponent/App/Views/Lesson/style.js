@@ -10,7 +10,6 @@ module.exports = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: 64,
   },
 
   text: {
@@ -27,14 +26,17 @@ module.exports = StyleSheet.create({
   },
 
   backContainer: {
-    height: 18,
-    marginTop: 10
+    marginTop: 20,
+    height: 38,
+    width: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   backButton: {
     height: 18,
     width: 12,
-    marginLeft: 7
+    alignSelf: 'center'
   },
 
   headerContent: {
