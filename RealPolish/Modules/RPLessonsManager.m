@@ -52,7 +52,7 @@ RCT_EXPORT_METHOD(cachedLessons:(RCTResponseSenderBlock)callback)
     }];
 }
 
-RCT_EXPORT_METHOD(downloadStoryOfLesson:(NSDictionary *)lessonDictionary onFinish:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary onFinish:(RCTResponseSenderBlock)callback)
 {
     RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
     
@@ -68,6 +68,13 @@ RCT_EXPORT_METHOD(downloadStoryOfLesson:(NSDictionary *)lessonDictionary onFinis
             } onError:onError];
         } onError:onError];
     } onError:onError];
+}
+
+RCT_EXPORT_METHOD(isDownloaded:(NSDictionary *)lessonDictionary result:(RCTResponseSenderBlock)callback)
+{
+    RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
+    BOOL result = [self isDownloaded:lesson];
+    return callback(@[[NSNull null], @(result)]);
 }
 
 #pragma mark -
@@ -175,6 +182,19 @@ RCT_EXPORT_METHOD(downloadStoryOfLesson:(NSDictionary *)lessonDictionary onFinis
         }
     }
     return result;
+}
+
+- (BOOL)isDownloaded:(RPLesson *)lesson
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *lessonPath = [self lessonPath];
+    for (NSString *rawUrl in @[lesson.story, lesson.pov, lesson.qa]) {
+        NSString *path = [self stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
+        if (![fm fileExistsAtPath:path]) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end
