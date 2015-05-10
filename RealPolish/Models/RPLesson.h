@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString *story;
 @property (nonatomic, strong) NSString *pov;
 @property (nonatomic, strong) NSString *qa;
+@property (nonatomic, strong) NSString *pdf;
 
 @end

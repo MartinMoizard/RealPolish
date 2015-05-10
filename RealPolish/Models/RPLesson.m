@@ -16,7 +16,8 @@
              @"title": @"title",
              @"story": @"story",
              @"pov": @"pov",
-             @"qa": @"qa"
+             @"qa": @"qa",
+             @"pdf": @"pdf"
              };
 }
 

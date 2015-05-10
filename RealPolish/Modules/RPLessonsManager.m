@@ -64,7 +64,9 @@ RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary onFinish:(RCTR
     [self downloadFileWithRawUrl:lesson.story onSuccess:^{
         [self downloadFileWithRawUrl:lesson.pov onSuccess:^{
             [self downloadFileWithRawUrl:lesson.qa onSuccess:^{
-                callback(@[[NSNull null]]);
+                [self downloadFileWithRawUrl:lesson.pdf onSuccess:^{
+                    callback(@[[NSNull null]]);
+                } onError:onError];
             } onError:onError];
         } onError:onError];
     } onError:onError];
@@ -129,6 +131,15 @@ RCT_EXPORT_METHOD(isDownloaded:(NSDictionary *)lessonDictionary result:(RCTRespo
 
 - (void)downloadFileWithRawUrl:(NSString *)rawUrl onSuccess:(void (^)(void))successBlock onError:(void (^)(NSError *))errorBlock
 {
+    NSString *lessonPath = [self lessonPath];
+    NSString *path = [self stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    if ([fm fileExistsAtPath:path isDirectory:NULL]) {
+        successBlock();
+        return;
+    }
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFHTTPRequestOperation *op = [manager GET:rawUrl
                                    parameters:nil
@@ -188,7 +199,7 @@ RCT_EXPORT_METHOD(isDownloaded:(NSDictionary *)lessonDictionary result:(RCTRespo
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSString *lessonPath = [self lessonPath];
-    for (NSString *rawUrl in @[lesson.story, lesson.pov, lesson.qa]) {
+    for (NSString *rawUrl in @[lesson.story, lesson.pov, lesson.qa, lesson.pdf]) {
         NSString *path = [self stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
         if (![fm fileExistsAtPath:path]) {
             return NO;

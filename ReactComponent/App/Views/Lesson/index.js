@@ -40,6 +40,12 @@ var ViewReactClass = React.createClass({
 					'title': 'Questions & Answers',
 					'subtitle': 'about the story',
 					'img': require('image!questions')
+				},
+				{
+					'color': '#F4CD6A',
+					'title': 'PDF',
+					'subtitle': 'transcription and translations',
+					'img': require('image!pdf')
 				}])
 			};
 		} else {
