@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react-native');
+var LessonsManager = require('NativeModules').RPLessonsManager;
+LessonsManager.clearTemporaryPath();
 
 var {
   AppRegistry,

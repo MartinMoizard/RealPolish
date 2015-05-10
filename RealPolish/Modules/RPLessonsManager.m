@@ -57,6 +57,7 @@ RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary onFinish:(RCTR
     RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
     
     void (^onError)(NSError *error) = ^void(NSError *error) {
+        [self clearTemporaryPath];
         NSDictionary *rctError = RCTMakeError([error localizedDescription], error, nil);
         callback(@[rctError]);
     };
@@ -77,6 +78,16 @@ RCT_EXPORT_METHOD(isDownloaded:(NSDictionary *)lessonDictionary result:(RCTRespo
     RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
     BOOL result = [self isDownloaded:lesson];
     return callback(@[[NSNull null], @(result)]);
+}
+
+RCT_EXPORT_METHOD(clearTemporaryPath)
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error = nil;
+    [fm removeItemAtPath:[self tempPath] error:&error];
+    if (error != nil) {
+        NSLog(@"Could not clear temporary path : %@", error);
+    }
 }
 
 #pragma mark -
