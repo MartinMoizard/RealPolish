@@ -80,6 +80,13 @@ RCT_EXPORT_METHOD(isDownloaded:(NSDictionary *)lessonDictionary result:(RCTRespo
     return callback(@[[NSNull null], @(result)]);
 }
 
+RCT_EXPORT_METHOD(isDownloading:(NSDictionary *)lessonDictionary result:(RCTResponseSenderBlock)callback)
+{
+    RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
+    BOOL result = [self isDownloading:lesson];
+    return callback(@[[NSNull null], @(result)]);
+}
+
 RCT_EXPORT_METHOD(clearTemporaryPath)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -206,17 +213,26 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
     return result;
 }
 
-- (BOOL)isDownloaded:(RPLesson *)lesson
+- (BOOL)isLesson:(RPLesson *)lesson inPath:(NSString *)aPath
 {
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSString *lessonPath = [self lessonPath];
     for (NSString *rawUrl in @[lesson.story, lesson.pov, lesson.qa, lesson.pdf]) {
-        NSString *path = [self stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
+        NSString *path = [self stringFilePathWithPath:aPath andRawFileUrl:rawUrl];
         if (![fm fileExistsAtPath:path]) {
             return NO;
         }
     }
     return YES;
+}
+
+- (BOOL)isDownloaded:(RPLesson *)lesson
+{
+    return [self isLesson:lesson inPath:[self lessonPath]];
+}
+
+- (BOOL)isDownloading:(RPLesson *)lesson
+{
+    return [self isLesson:lesson inPath:[self tempPath]];
 }
 
 @end
