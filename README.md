@@ -11,12 +11,11 @@ npm install
 cd iOS
 pod install
 ```
+Open RealPolish.xcworkspace file in XCode & Cmd+R
 
 ### Try it now
 
 soon (on appetize.io)
-
-Open RealPolish.xcworkspace file in XCode & Cmd+R
 
 #### This is a work in progress application
  
