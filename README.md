@@ -17,5 +17,13 @@ Open RealPolish.xcworkspace file in XCode & Cmd+R
 
 soon (on appetize.io)
 
+### Credits
+
+Tim Boelaars: book ico
+Andrea Mazzini: eye ico
+Martin Delin: question ico
+Jennifer Cozzette: download ico
+Richard Schumann: PDF ico
+
 #### This is a work in progress application
  
