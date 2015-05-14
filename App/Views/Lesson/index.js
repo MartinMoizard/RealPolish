@@ -11,6 +11,7 @@ var DownloadView = require("./Elements/Download");
 var LessonItemCell = require("./Elements/ItemCell");
 var HeaderView = require("./Elements/Header");
 var PDFViewer = require("../PDFViewer");
+var PlayerView = require("./Elements/Player")
 
 var {
   Text,
@@ -89,9 +90,7 @@ var ViewReactClass = React.createClass({
         				dataSource={this.state.dataSource}
         				renderRow={this.renderLessonItemCell}
         				automaticallyAdjustContentInsets={false} />
-		        	<Text style={styles.text}>	
-		          		Lesson downloaded
-		        	</Text>
+        			<PlayerView />
       			</View>
 			);
 	},
