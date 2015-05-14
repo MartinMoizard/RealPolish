@@ -12,6 +12,8 @@
 		5B32339E1AF670540070B5AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B32339D1AF670540070B5AB /* Images.xcassets */; };
 		5B3233A11AF670540070B5AB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B32339F1AF670540070B5AB /* LaunchScreen.xib */; };
 		5B3233AD1AF670540070B5AB /* RealPolishTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3233AC1AF670540070B5AB /* RealPolishTests.m */; };
+		5BE13B5C1B04ABFD00E964E3 /* RPPDFViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE13B5B1B04ABFD00E964E3 /* RPPDFViewManager.m */; };
+		5BE13B621B04AC2300E964E3 /* RPPDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE13B611B04AC2300E964E3 /* RPPDFView.m */; };
 		5BFEA4C21AF6C31A0058BDE1 /* RPLessonsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */; };
 		5BFEA4C61AF6C4270058BDE1 /* RPLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFEA4C51AF6C4270058BDE1 /* RPLesson.m */; };
 		EDCA105B3D8A6CD417C8802D /* libPods-RealPolish.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4988DD1BEEEC7B7C4EAAEACA /* libPods-RealPolish.a */; };
@@ -41,6 +43,10 @@
 		5B3233AB1AF670540070B5AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B3233AC1AF670540070B5AB /* RealPolishTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealPolishTests.m; sourceTree = "<group>"; };
 		5B7C1F541AFEB15500517E5E /* RealPolish-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RealPolish-Prefix.pch"; sourceTree = "<group>"; };
+		5BE13B5A1B04ABFD00E964E3 /* RPPDFViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPPDFViewManager.h; sourceTree = "<group>"; };
+		5BE13B5B1B04ABFD00E964E3 /* RPPDFViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPPDFViewManager.m; sourceTree = "<group>"; };
+		5BE13B601B04AC2300E964E3 /* RPPDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPPDFView.h; sourceTree = "<group>"; };
+		5BE13B611B04AC2300E964E3 /* RPPDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPPDFView.m; sourceTree = "<group>"; };
 		5BFEA4C01AF6C31A0058BDE1 /* RPLessonsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLessonsManager.h; sourceTree = "<group>"; };
 		5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLessonsManager.m; sourceTree = "<group>"; };
 		5BFEA4C41AF6C4270058BDE1 /* RPLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLesson.h; sourceTree = "<group>"; };
@@ -92,6 +98,7 @@
 			children = (
 				5BFEA4C31AF6C4070058BDE1 /* Models */,
 				5BFEA4BF1AF6C30A0058BDE1 /* Modules */,
+				5BE13B551B04AB9B00E964E3 /* Components */,
 				5B3233941AF670540070B5AB /* AppDelegate.h */,
 				5B3233951AF670540070B5AB /* AppDelegate.m */,
 				5B32339D1AF670540070B5AB /* Images.xcassets */,
@@ -126,6 +133,25 @@
 				5B3233AB1AF670540070B5AB /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5BE13B551B04AB9B00E964E3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5BE13B591B04ABFD00E964E3 /* pdf */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		5BE13B591B04ABFD00E964E3 /* pdf */ = {
+			isa = PBXGroup;
+			children = (
+				5BE13B5A1B04ABFD00E964E3 /* RPPDFViewManager.h */,
+				5BE13B5B1B04ABFD00E964E3 /* RPPDFViewManager.m */,
+				5BE13B601B04AC2300E964E3 /* RPPDFView.h */,
+				5BE13B611B04AC2300E964E3 /* RPPDFView.m */,
+			);
+			path = pdf;
 			sourceTree = "<group>";
 		};
 		5BFEA4BF1AF6C30A0058BDE1 /* Modules */ = {
@@ -312,6 +338,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B3233961AF670540070B5AB /* AppDelegate.m in Sources */,
+				5BE13B621B04AC2300E964E3 /* RPPDFView.m in Sources */,
+				5BE13B5C1B04ABFD00E964E3 /* RPPDFViewManager.m in Sources */,
 				5B3233931AF670540070B5AB /* main.m in Sources */,
 				5BFEA4C21AF6C31A0058BDE1 /* RPLessonsManager.m in Sources */,
 				5BFEA4C61AF6C4270058BDE1 /* RPLesson.m in Sources */,

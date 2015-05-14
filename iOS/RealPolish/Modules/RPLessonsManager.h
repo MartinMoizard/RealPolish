@@ -10,6 +10,12 @@
 
 #import "RCTBridgeModule.h"
 
+@class RPLesson;
+
 @interface RPLessonsManager : NSObject <RCTBridgeModule>
+
++ (RPLesson *)lessonWithId:(NSNumber *)lessonId;
++ (NSString *)stringFilePathWithPath:(NSString *)path andRawFileUrl:(NSString *)fileRawUrl;
++ (NSString *)lessonPath;
 
 @end

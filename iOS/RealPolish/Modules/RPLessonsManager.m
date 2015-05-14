@@ -61,7 +61,7 @@ RCT_EXPORT_METHOD(cachedLessons:(RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary)
 {
-    RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
+    RPLesson *lesson = [RPLessonsManager lessonWithId:lessonDictionary[@"id"]];
     
     /* concurrent downloads are not allowed */
     if ([self isDownloadInProgress]) {
@@ -90,14 +90,14 @@ RCT_EXPORT_METHOD(downloadLesson:(NSDictionary *)lessonDictionary)
 
 RCT_EXPORT_METHOD(isDownloaded:(NSDictionary *)lessonDictionary result:(RCTResponseSenderBlock)callback)
 {
-    RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
+    RPLesson *lesson = [RPLessonsManager lessonWithId:lessonDictionary[@"id"]];
     BOOL result = [self isDownloaded:lesson];
     return callback(@[[NSNull null], @(result)]);
 }
 
 RCT_EXPORT_METHOD(isDownloading:(NSDictionary *)lessonDictionary result:(RCTResponseSenderBlock)callback)
 {
-    RPLesson *lesson = [self lessonWithId:lessonDictionary[@"id"]];
+    RPLesson *lesson = [RPLessonsManager lessonWithId:lessonDictionary[@"id"]];
     BOOL isDownloadingCurrentLesson = [self isDownloadingLesson:lesson];
     BOOL isDownloadingOtherLesson = [self isDownloadingOtherLesson:lesson];
     return callback(@[[NSNull null], @(isDownloadingCurrentLesson), @(isDownloadingOtherLesson)]);
@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSError *error = nil;
-    [fm removeItemAtPath:[self tempPath] error:&error];
+    [fm removeItemAtPath:[RPLessonsManager tempPath] error:&error];
     tempPath = nil;
     if (error != nil) {
         NSLog(@"Could not clear temporary path : %@", error);
@@ -119,8 +119,8 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 
 - (void)downloadFileWithRawUrl:(NSString *)rawUrl onSuccess:(void (^)(void))successBlock onError:(void (^)(NSError *))errorBlock
 {
-    NSString *lessonPath = [self lessonPath];
-    NSString *path = [self stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
+    NSString *lessonPath = [RPLessonsManager lessonPath];
+    NSString *path = [RPLessonsManager stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
     NSFileManager *fm = [NSFileManager defaultManager];
     
     if ([fm fileExistsAtPath:path isDirectory:NULL]) {
@@ -143,9 +143,9 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 
 - (void)moveToLessonPath:(NSString *)rawUrl
 {
-    NSString *lessonPath = [self lessonPath];
-    NSString *from = [self stringFilePathWithPath:[self tempPath] andRawFileUrl:rawUrl];
-    NSString *to = [self stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
+    NSString *lessonPath = [RPLessonsManager lessonPath];
+    NSString *from = [RPLessonsManager stringFilePathWithPath:[RPLessonsManager tempPath] andRawFileUrl:rawUrl];
+    NSString *to = [RPLessonsManager stringFilePathWithPath:lessonPath andRawFileUrl:rawUrl];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:from]) {
         NSError *err = nil;
@@ -158,12 +158,12 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 
 - (NSOutputStream *)outputStreamForFileRawUrl:(NSString *)fileRawUrl
 {
-    NSString *path = [self stringFilePathWithPath:[self tempPath]
-                                    andRawFileUrl:fileRawUrl];
+    NSString *path = [RPLessonsManager stringFilePathWithPath:[RPLessonsManager tempPath]
+                                                andRawFileUrl:fileRawUrl];
     return [NSOutputStream outputStreamToFileAtPath:path append:YES];
 }
 
-- (RPLesson *)lessonWithId:(NSNumber *)lessonId
++ (RPLesson *)lessonWithId:(NSNumber *)lessonId
 {
     NSArray *lessons = [[TMCache sharedCache] objectForKey:kRPLessonsKey];
     RPLesson *result = nil;
@@ -180,7 +180,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     for (NSString *rawUrl in @[lesson.story, lesson.pov, lesson.qa, lesson.pdf]) {
-        NSString *path = [self stringFilePathWithPath:aPath andRawFileUrl:rawUrl];
+        NSString *path = [RPLessonsManager stringFilePathWithPath:aPath andRawFileUrl:rawUrl];
         if (![fm fileExistsAtPath:path]) {
             return NO;
         }
@@ -192,7 +192,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSError *error = nil;
-    NSArray *files = [fm contentsOfDirectoryAtPath:[self tempPath] error:&error];
+    NSArray *files = [fm contentsOfDirectoryAtPath:[RPLessonsManager tempPath] error:&error];
     if (error != nil) {
         NSLog(@"Could not get content of temp directory : %@", error);
     }
@@ -215,14 +215,14 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 #pragma mark -
 #pragma Path/File/Folder helpers
 
-- (NSString *)applicationDocumentsDirectory
++ (NSString *)applicationDocumentsDirectory
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     return documentsDirectory;
 }
 
-- (NSString *)stringFilePathWithPath:(NSString *)path andRawFileUrl:(NSString *)fileRawUrl
++ (NSString *)stringFilePathWithPath:(NSString *)path andRawFileUrl:(NSString *)fileRawUrl
 {
     return [path stringByAppendingPathComponent:[fileRawUrl lastPathComponent]];
 }
@@ -231,12 +231,12 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
  *  Path where lesson's ressources are going to be downloaded before moving them
  *  to a final path. This is done to avoid using half-downloaded files
  */
-- (NSString *)tempPath
++ (NSString *)tempPath
 {
     if (!tempPath) {
-        NSString *appDocDir = [self applicationDocumentsDirectory];
+        NSString *appDocDir = [RPLessonsManager applicationDocumentsDirectory];
         tempPath = [appDocDir stringByAppendingPathComponent:@"temp"];
-        [self touchFolderAtPath:tempPath];
+        [RPLessonsManager touchFolderAtPath:tempPath];
     }
     return tempPath;
 }
@@ -244,13 +244,13 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 /**
  *  Path were downloaded files are going to be stored
  */
-- (NSString *)lessonPath
++ (NSString *)lessonPath
 {
     static NSString *lessonPath = nil;
     if (!lessonPath) {
-        NSString *appDocDir = [self applicationDocumentsDirectory];
+        NSString *appDocDir = [RPLessonsManager applicationDocumentsDirectory];
         lessonPath = [appDocDir stringByAppendingPathComponent:@"lesson"];
-        [self touchFolderAtPath:lessonPath];
+        [RPLessonsManager touchFolderAtPath:lessonPath];
     }
     return lessonPath;
 }
@@ -260,7 +260,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
  */
 - (NSString *)fileWitnessForLessonDownload:(RPLesson *)lesson
 {
-    return [[self tempPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.lesson", lesson.lessonId]];
+    return [[RPLessonsManager tempPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.lesson", lesson.lessonId]];
 }
 
 - (void)touchFileForLessonBeingDownloaded:(RPLesson *)lesson
@@ -271,7 +271,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
     [self fireDownloadStateChanged];
 }
 
-- (void)touchFolderAtPath:(NSString *)path
++ (void)touchFolderAtPath:(NSString *)path
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:path isDirectory:NULL]) {
@@ -289,7 +289,7 @@ RCT_EXPORT_METHOD(clearTemporaryPath)
 
 - (BOOL)isDownloaded:(RPLesson *)lesson
 {
-    return [self isLesson:lesson inPath:[self lessonPath]];
+    return [self isLesson:lesson inPath:[RPLessonsManager lessonPath]];
 }
 
 - (BOOL)isDownloadInProgress
