@@ -15,7 +15,7 @@ Open RealPolish.xcworkspace file in XCode & Cmd+R
 
 ### Try it now
 
-soon (on appetize.io)
+Soon (on appetize.io)
 
 ### Credits
 
