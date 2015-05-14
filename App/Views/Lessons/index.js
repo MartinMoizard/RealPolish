@@ -70,7 +70,8 @@ var ViewReactClass = React.createClass({
 				<ListView
 	        		dataSource={this.state.dataSource}
 	        		renderRow={this.renderLessonCell}
-	        		style={styles.lessonsListView} />
+	        		style={styles.lessonsListView}
+	        		automaticallyAdjustContentInsets={false} />
         	</View>
 		);
 	},

@@ -10,15 +10,34 @@ module.exports = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderColor: '#EDE6E7'
+  },
+
+  numberContainer: {
+    width: 50,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F6F6EF',
   },
-  story: {
-    fontSize: 20,
-    textAlign: 'right',
-    margin: 10,
-    color: 'gray',
-    marginLeft: 15,
+  
+  textContainer: {
+    alignSelf: 'center',
+    marginLeft: 14,
   },
+
+  number: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  
+  title: {
+    fontSize: 16,
+    fontFamily: 'HelveticaNeue',
+    fontWeight: '300',
+    color: 'black',
+  },
+
 });
