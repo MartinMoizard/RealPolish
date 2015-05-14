@@ -9,9 +9,9 @@ var {
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D8D8D8',
-    marginTop: 64,
+    backgroundColor: 'white',
   },
+
   loadingText: {
     fontSize: 25,
     textAlign: 'center',
@@ -20,7 +20,8 @@ module.exports = StyleSheet.create({
     marginRight: 10,
     color: 'black'
   },
+
   lessonsListView:{
-    backgroundColor: '#D8D8D8',
+    backgroundColor: 'white',
   }
 });

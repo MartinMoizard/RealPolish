@@ -13,6 +13,7 @@ var LessonActionCreators = require('../../Actions/RealLessonActionCreators');
 var NetworkManager = require('../../Network/NetworkManager');
 var LessonStore = require('../../Stores/LessonStore');
 var LessonCell = require("./Elements/LessonCell")
+var HomeHeaderView = require("./Elements/HomeHeader")
 var LessonView = require("../Lesson")
 
 function refreshLocalLessonsFromServer() {
@@ -51,6 +52,7 @@ var ViewReactClass = React.createClass({
 		if (!this.state.loaded) {
 			return(
 	        	<View style={styles.container}>
+	        		<HomeHeaderView />
 	       		<Text style={styles.loadingText}>
 	         		Fetching lessons...
 	        	</Text>
@@ -63,10 +65,13 @@ var ViewReactClass = React.createClass({
 
 	renderListView: function() {
 		return (
-			<ListView
-        		dataSource={this.state.dataSource}
-        		renderRow={this.renderLessonCell}
-        		style={styles.lessonsListView} />
+			<View style={styles.container}>
+				<HomeHeaderView />
+				<ListView
+	        		dataSource={this.state.dataSource}
+	        		renderRow={this.renderLessonCell}
+	        		style={styles.lessonsListView} />
+        	</View>
 		);
 	},
 
