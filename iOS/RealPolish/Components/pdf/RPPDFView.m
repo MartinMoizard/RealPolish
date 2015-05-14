@@ -30,7 +30,9 @@
     _webView.scalesPageToFit = YES;
     [self addSubview:_webView];
     
-    NSURL *url = [NSURL fileURLWithPath:stringPath];
+    NSString *pdfPath = [RPLessonsManager stringFilePathWithPath:[RPLessonsManager lessonPath]
+                                                   andRawFileUrl:stringPath];
+    NSURL *url = [NSURL fileURLWithPath:pdfPath];
     [_webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 

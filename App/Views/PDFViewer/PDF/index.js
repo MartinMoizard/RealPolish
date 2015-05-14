@@ -6,14 +6,12 @@ var {
 
 class PDFView extends React.Component {
   render() {
-    return (
-    	<RPPDFView {...this.props} />
-    	);
+    return <RPPDFView {...this.props} />;
   }
 }
 
-MapView.propTypes = {
-  file: React.PropTypes.string,
+PDFView.propTypes = {
+	file: React.PropTypes.string,
 };
 
 var PDFView = requireNativeComponent('RPPDFView', PDFView);

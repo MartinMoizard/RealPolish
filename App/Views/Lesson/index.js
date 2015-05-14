@@ -10,6 +10,7 @@ var lessonItems = require("./lessonItems");
 var DownloadView = require("./Elements/Download");
 var LessonItemCell = require("./Elements/ItemCell");
 var HeaderView = require("./Elements/Header");
+var PDFViewer = require("../PDFViewer");
 
 var {
   Text,
@@ -104,7 +105,15 @@ var ViewReactClass = React.createClass({
 	},
 
 	_onSelectLessonItem: function(lessonItem) {
-
+		if (lessonItem.id === 3) {
+			this.props.navigator.push({
+		      component: PDFViewer,
+		      passProps: {
+		      	lesson: this.props.lesson,
+		      	navigator: this.props.navigator
+		      }
+    		});	
+		}
 	},
 
 	_onChange: function() {

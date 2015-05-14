@@ -13,7 +13,7 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_VIEW_PROPERTY(lesson, NSDictionary)
+RCT_EXPORT_VIEW_PROPERTY(file, NSString)
 
 - (UIView *)view
 {
