@@ -18,7 +18,7 @@
 
 @implementation RPPDFView
 
-- (void)setLesson:(NSDictionary *)lessonDictionary
+- (void)setFile:(NSString *)stringPath
 {
     if (_webView != nil) {
         [_webView removeFromSuperview];
@@ -30,9 +30,7 @@
     _webView.scalesPageToFit = YES;
     [self addSubview:_webView];
     
-    RPLesson *lesson = [RPLessonsManager lessonWithId:lessonDictionary[@"id"]];
-    NSString *pdfPath = [RPLessonsManager stringFilePathWithPath:[RPLessonsManager lessonPath] andRawFileUrl:lesson.pdf];
-    NSURL *url = [NSURL fileURLWithPath:pdfPath];
+    NSURL *url = [NSURL fileURLWithPath:stringPath];
     [_webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 

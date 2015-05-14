@@ -1,5 +1,21 @@
+var React = require('react-native');
+
 var {
 	requireNativeComponent
-} = require('react-native');
+} = React;
 
-module.exports = requireNativeComponent('RPPDFView', null);
+class PDFView extends React.Component {
+  render() {
+    return (
+    	<RPPDFView {...this.props} />
+    	);
+  }
+}
+
+MapView.propTypes = {
+  file: React.PropTypes.string,
+};
+
+var PDFView = requireNativeComponent('RPPDFView', PDFView);
+
+module.exports = PDFView;
