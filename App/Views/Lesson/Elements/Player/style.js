@@ -14,20 +14,13 @@ module.exports = StyleSheet.create({
     borderColor: '#EDE6E7'
   },
 
-  title: {
-    marginTop: 6,
-    fontSize: 12,
-    fontFamily: 'HelveticaNeue',
-    fontWeight: '200',
-    textAlign: 'center',
-  },
-
   progressContainer: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'nowrap',
     alignItems: 'center',
-    marginBottom: 7,
+    marginBottom: 8,
+    marginTop: 8,
   },
 
   time: {
@@ -44,8 +37,8 @@ module.exports = StyleSheet.create({
   },
 
   playPause: {
-    width: 28,
-    height: 28,
+    width: 35,
+    height: 35,
     marginRight: 7,
     marginLeft: 7,
   },

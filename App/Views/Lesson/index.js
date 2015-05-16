@@ -12,6 +12,7 @@ var LessonItemCell = require("./Elements/ItemCell");
 var HeaderView = require("./Elements/Header");
 var PDFViewer = require("../PDFViewer");
 var PlayerView = require("./Elements/Player")
+var AudioPlayer = require('NativeModules').RPAudioPlayerManager;
 
 var {
   Text,
@@ -104,15 +105,23 @@ var ViewReactClass = React.createClass({
 	},
 
 	_onSelectLessonItem: function(lessonItem) {
-		if (lessonItem.id === 3) {
-			this.props.navigator.push({
-		      component: PDFViewer,
-		      passProps: {
-		      	lesson: this.props.lesson,
-		      	navigator: this.props.navigator
-		      }
-    		});	
-		}
+		var self = this;
+		var actionMapper = {
+			0: function() { AudioPlayer.play(self.props.lesson.story) },
+			1: function() { AudioPlayer.play(self.props.lesson.pov) },
+			2: function() { AudioPlayer.play(self.props.lesson.qa) },
+			3: function() {
+				self.props.navigator.push({
+			      component: PDFViewer,
+			      passProps: {
+			      	lesson: self.props.lesson,
+			      	navigator: self.props.navigator
+			      }
+    			});
+			}
+		};
+		var action = actionMapper[lessonItem.id];
+		action();
 	},
 
 	_onChange: function() {

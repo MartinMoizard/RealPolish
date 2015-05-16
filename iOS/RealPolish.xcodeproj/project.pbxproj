@@ -12,6 +12,7 @@
 		5B32339E1AF670540070B5AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B32339D1AF670540070B5AB /* Images.xcassets */; };
 		5B3233A11AF670540070B5AB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B32339F1AF670540070B5AB /* LaunchScreen.xib */; };
 		5B3233AD1AF670540070B5AB /* RealPolishTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3233AC1AF670540070B5AB /* RealPolishTests.m */; };
+		5B4C41201B07827600C0028E /* RPAudioPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4C411F1B07827600C0028E /* RPAudioPlayerManager.m */; };
 		5BE13B5C1B04ABFD00E964E3 /* RPPDFViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE13B5B1B04ABFD00E964E3 /* RPPDFViewManager.m */; };
 		5BE13B621B04AC2300E964E3 /* RPPDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE13B611B04AC2300E964E3 /* RPPDFView.m */; };
 		5BFEA4C21AF6C31A0058BDE1 /* RPLessonsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */; };
@@ -42,6 +43,8 @@
 		5B3233A61AF670540070B5AB /* RealPolishTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RealPolishTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B3233AB1AF670540070B5AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B3233AC1AF670540070B5AB /* RealPolishTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RealPolishTests.m; sourceTree = "<group>"; };
+		5B4C411E1B07827600C0028E /* RPAudioPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPAudioPlayerManager.h; sourceTree = "<group>"; };
+		5B4C411F1B07827600C0028E /* RPAudioPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAudioPlayerManager.m; sourceTree = "<group>"; };
 		5B7C1F541AFEB15500517E5E /* RealPolish-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RealPolish-Prefix.pch"; sourceTree = "<group>"; };
 		5BE13B5A1B04ABFD00E964E3 /* RPPDFViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPPDFViewManager.h; sourceTree = "<group>"; };
 		5BE13B5B1B04ABFD00E964E3 /* RPPDFViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPPDFViewManager.m; sourceTree = "<group>"; };
@@ -159,6 +162,8 @@
 			children = (
 				5BFEA4C01AF6C31A0058BDE1 /* RPLessonsManager.h */,
 				5BFEA4C11AF6C31A0058BDE1 /* RPLessonsManager.m */,
+				5B4C411E1B07827600C0028E /* RPAudioPlayerManager.h */,
+				5B4C411F1B07827600C0028E /* RPAudioPlayerManager.m */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 				5BE13B5C1B04ABFD00E964E3 /* RPPDFViewManager.m in Sources */,
 				5B3233931AF670540070B5AB /* main.m in Sources */,
 				5BFEA4C21AF6C31A0058BDE1 /* RPLessonsManager.m in Sources */,
+				5B4C41201B07827600C0028E /* RPAudioPlayerManager.m in Sources */,
 				5BFEA4C61AF6C4270058BDE1 /* RPLesson.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
