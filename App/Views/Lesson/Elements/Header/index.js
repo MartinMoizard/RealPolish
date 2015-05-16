@@ -38,7 +38,7 @@ var HeaderView = React.createClass({
   },
 
   _onBackTapped: function() {
-    this.props.navigator.pop();
+    this.props.onBack();
   },
 });
 

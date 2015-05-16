@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react-native');
+var _ = require("underscore");
+var moment = require("moment");
 
 var {
   Text,
@@ -15,10 +17,11 @@ var AudioPlayer = require('NativeModules').RPAudioPlayerManager;
 var styles = require("./style");
 
 function timeToString(time) {
-  if (time == null) {
+  if (time === 0) {
     return '--:--';
   } else {
-    return 'todo';
+    var d = new Date(0, 0, 0, 0, 0, time, 0);
+    return moment(d).format("mm:ss");
   }
 }
 
@@ -26,20 +29,24 @@ var PlayerView = React.createClass({
   getInitialState: function() {
     return {
       playing: false,
-      currentTime: null,
-      playStateChangedSubscription: null,
+      currentTime: 0,
+      subscriptions: [],
     };
   },
 
-  refreshState: function() {
+  refreshPlayingState: function() {
     var self = this;
     AudioPlayer.isPlaying((error, res) => {
-      self.setState({
-        playing: res,
-        currentTime: this.state.currentTime,
-        playStateChangedSubscription: this.state.playStateChangedSubscription
-      });
+      var newState = _.extend({}, this.state);
+      newState.playing = res;
+      self.setState(newState);
     });
+  },
+
+  refreshCurrentTime: function(time) {
+    var newState = _.extend({}, this.state);
+    newState.currentTime = time;
+    this.setState(newState);
   },
 
   render: function() {
@@ -66,24 +73,29 @@ var PlayerView = React.createClass({
 
   componentDidMount: function() {
     var self = this;
-    var subscription = DeviceEventEmitter.addListener(
+    var playStateSubscription = DeviceEventEmitter.addListener(
       'playStateChanged',
       (notification) => {
-        self.refreshState();
+        self.refreshPlayingState();
       }
     );
-    this.setState({
-      playing: this.state.playing,
-      currentTime: this.state.currentTime,
-      playStateChangedSubscription: subscription,
-    });
+    
+    var progressSubscription = DeviceEventEmitter.addListener(
+      'playProgressChanged',
+      (notification) => {
+        self.refreshCurrentTime(notification.currentTime);
+      }
+    );
+
+    var newState = _.extend({}, this.state);
+    newState.subscriptions = [playStateSubscription, progressSubscription];
+    this.setState(newState);
   },
 
   componentWillUnmount: function() {
-    var subscription = this.state.playStateChangedSubscription;
-    if (subscription) {
+    _.each(this.state.subscriptions, subscription => {
       subscription.remove();
-    }
+    });
   },
 });
 

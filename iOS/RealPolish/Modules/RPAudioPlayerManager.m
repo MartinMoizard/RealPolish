@@ -14,10 +14,15 @@
 #import <RCTUtils.h>
 
 NSString * const kRPAudioPlayerManagerStateChanged = @"playStateChanged";
+NSString * const kRPAudioPlayerProgressChanged = @"playProgressChanged";
 
 @interface RPAudioPlayerManager ()
 
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
+@property (nonatomic, assign) NSTimeInterval currentTime;
+@property (nonatomic, strong) CADisplayLink *progressUpdateTimer;
+@property (nonatomic, assign) int progressUpdateInterval;
+@property (nonatomic, strong) NSDate *prevProgressUpdateTime;
 
 @end
 
@@ -29,15 +34,20 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(play:(NSString *)audioFile)
 {
+    [self stopProgressTimer];
+    
     NSError *error = nil;
     NSString *localPath = [RPLessonsManager stringFilePathWithPath:[RPLessonsManager lessonPath]
                                                      andRawFileUrl:audioFile];
     NSURL *audioUrl = [NSURL fileURLWithPath:localPath];
     _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioUrl error:&error];
     _audioPlayer.delegate = self;
+
     if (error) {
         NSLog(@"Audio player cannot be created : %@", error);
     } else {
+        [self startProgressTimer];
+        
         [_audioPlayer play];
         [self firePlayStateChanged];
     }
@@ -62,6 +72,13 @@ RCT_EXPORT_METHOD(isPlaying:(RCTResponseSenderBlock)callback)
         result = YES;
     }
     callback(@[[NSNull null], @(result)]);
+}
+
+RCT_EXPORT_METHOD(stop)
+{
+    [self stopProgressTimer];
+    [_audioPlayer stop];
+    _audioPlayer = nil;
 }
 
 #pragma mark -
@@ -89,6 +106,11 @@ RCT_EXPORT_METHOD(isPlaying:(RCTResponseSenderBlock)callback)
     return self;
 }
 
+- (void)invalidate
+{
+    [self stopProgressTimer];
+}
+
 - (void)firePlayStateChanged
 {
     [_bridge.eventDispatcher sendDeviceEventWithName:kRPAudioPlayerManagerStateChanged body:nil];
@@ -97,6 +119,42 @@ RCT_EXPORT_METHOD(isPlaying:(RCTResponseSenderBlock)callback)
 - (void)audioSessionInterrupted
 {
     [self firePlayStateChanged];
+}
+
+- (void)fireProgressChanged
+{
+    NSTimeInterval currentTime = 0;
+    if (_audioPlayer) {
+        currentTime = _audioPlayer.currentTime;
+    }
+    
+    if (_prevProgressUpdateTime == nil ||
+        (([_prevProgressUpdateTime timeIntervalSinceNow] * -1000.0) >= _progressUpdateInterval)) {
+        NSLog(@"current time : %@", [NSNumber numberWithFloat:currentTime]);
+        [_bridge.eventDispatcher sendDeviceEventWithName:kRPAudioPlayerProgressChanged
+                                                    body:@{
+                                                           @"currentTime": [NSNumber numberWithFloat:currentTime]
+                                                           }];
+        
+        _prevProgressUpdateTime = [NSDate date];
+    }
+}
+
+- (void)stopProgressTimer
+{
+    [_progressUpdateTimer invalidate];
+    _progressUpdateTimer = nil;
+}
+
+- (void)startProgressTimer
+{
+    _progressUpdateInterval = 250;
+    _prevProgressUpdateTime = nil;
+    
+    [self stopProgressTimer];
+    
+    _progressUpdateTimer = [CADisplayLink displayLinkWithTarget:self selector:@selector(fireProgressChanged)];
+    [_progressUpdateTimer addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 @end

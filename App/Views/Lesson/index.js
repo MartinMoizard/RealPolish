@@ -76,7 +76,7 @@ var ViewReactClass = React.createClass({
 	renderDownloadView: function() {
 		return (
 				<View style={styles.container}>
-					<HeaderView lesson={this.props.lesson} navigator={this.props.navigator} />
+					<HeaderView lesson={this.props.lesson} onBack={this._onBackTapped} />
 					<DownloadView lesson={this.props.lesson} />
 				</View>
 	      	);
@@ -85,7 +85,7 @@ var ViewReactClass = React.createClass({
 	renderLessonList: function() {
 		return (
 				<View style={styles.container}>
-					<HeaderView lesson={this.props.lesson} navigator={this.props.navigator} />
+					<HeaderView lesson={this.props.lesson} onBack={this._onBackTapped} />
 					<ListView
 						style={styles.itemsList}
         				dataSource={this.state.dataSource}
@@ -126,6 +126,11 @@ var ViewReactClass = React.createClass({
 
 	_onChange: function() {
 		this.setStateFromStore();
+	},
+
+	_onBackTapped: function() {
+		AudioPlayer.stop();
+		this.props.navigator.pop();
 	},
 });
 
