@@ -81,6 +81,11 @@ RCT_EXPORT_METHOD(stop)
     _audioPlayer = nil;
 }
 
+RCT_EXPORT_METHOD(seek:(NSNumber *)value)
+{
+    _audioPlayer.currentTime = [value floatValue];
+}
+
 #pragma mark -
 #pragma mark AVAudioPlayerDelegate
 
@@ -133,7 +138,8 @@ RCT_EXPORT_METHOD(stop)
         NSLog(@"current time : %@", [NSNumber numberWithFloat:currentTime]);
         [_bridge.eventDispatcher sendDeviceEventWithName:kRPAudioPlayerProgressChanged
                                                     body:@{
-                                                           @"currentTime": [NSNumber numberWithFloat:currentTime]
+                                                           @"currentTime": [NSNumber numberWithFloat:currentTime],
+                                                           @"duration": [NSNumber numberWithFloat:_audioPlayer.duration]
                                                            }];
         
         _prevProgressUpdateTime = [NSDate date];

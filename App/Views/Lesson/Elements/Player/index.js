@@ -30,6 +30,7 @@ var PlayerView = React.createClass({
     return {
       playing: false,
       currentTime: 0,
+      duration: 1,
       subscriptions: [],
     };
   },
@@ -43,9 +44,10 @@ var PlayerView = React.createClass({
     });
   },
 
-  refreshCurrentTime: function(time) {
+  refreshCurrentTimeAndDuration: function(time, duration) {
     var newState = _.extend({}, this.state);
     newState.currentTime = time;
+    newState.duration = duration;
     this.setState(newState);
   },
 
@@ -58,13 +60,20 @@ var PlayerView = React.createClass({
           <Text style={styles.time}>
             {currentTime}
           </Text>
-          <SliderIOS style={styles.slider} minimumTrackTintColor='#49BEBD' />
+          <SliderIOS style={styles.slider} minimumTrackTintColor='#49BEBD'
+            maximumValue={this.state.duration}
+            value={this.state.currentTime}
+            onValueChange={this._onSliderValueChanged} />
           <TouchableOpacity onPress={this.onPlayPause}>
             <Image style={styles.playPause} source={playImage} />
           </TouchableOpacity>
         </View>
       </View>
     );
+  },
+
+  _onSliderValueChanged: function(value) {
+    AudioPlayer.seek(value);
   },
 
   onPlayPause: function() {
@@ -83,7 +92,7 @@ var PlayerView = React.createClass({
     var progressSubscription = DeviceEventEmitter.addListener(
       'playProgressChanged',
       (notification) => {
-        self.refreshCurrentTime(notification.currentTime);
+        self.refreshCurrentTimeAndDuration(notification.currentTime, notification.duration);
       }
     );
 
