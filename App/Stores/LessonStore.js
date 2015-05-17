@@ -34,6 +34,13 @@ var LessonStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
+  getCached: function(callback) {
+    LessonsManager.cachedLessons((error, result) => {
+      var cachedLessons = error ? [] : result;
+      callback(cachedLessons);
+    });
+  },
+
   getAll: function() {
     return _lessons;
   },

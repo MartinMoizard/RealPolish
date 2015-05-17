@@ -40,8 +40,16 @@ var ViewReactClass = React.createClass({
 	},
 
 	componentDidMount: function() {
-		LessonStore.addChangeListener(this._onChange);
-		refreshLocalLessonsFromServer();
+		var self = this;
+		LessonStore.getCached(function(cachedLessons) {
+			LessonStore.addChangeListener(self._onChange);
+
+			if (cachedLessons.length) {
+				LessonActionCreators.receiveLessons(cachedLessons);
+			}
+
+			refreshLocalLessonsFromServer();
+		});
   	},
 
   	componentWillUnmount: function() {
