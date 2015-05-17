@@ -35,13 +35,17 @@ var PlayerView = React.createClass({
     };
   },
 
-  refreshPlayingState: function() {
+  refreshPlayingStateFromPlayer: function() {
     var self = this;
     AudioPlayer.isPlaying((error, res) => {
-      var newState = _.extend({}, this.state);
-      newState.playing = res;
-      self.setState(newState);
+      self.refreshPlayingState(res);
     });
+  },
+
+  refreshPlayingState: function(playing) {
+    var newState = _.extend({}, this.state);
+    newState.playing = playing;
+    this.setState(newState);
   },
 
   refreshCurrentTimeAndDuration: function(time, duration) {
@@ -81,11 +85,13 @@ var PlayerView = React.createClass({
   },
 
   componentDidMount: function() {
+    this.refreshPlayingStateFromPlayer();
+
     var self = this;
     var playStateSubscription = DeviceEventEmitter.addListener(
       'playStateChanged',
       (notification) => {
-        self.refreshPlayingState();
+        self.refreshPlayingState(notification.playing);
       }
     );
     

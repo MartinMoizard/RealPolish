@@ -126,7 +126,10 @@ RCT_EXPORT_METHOD(seek:(NSNumber *)value)
 
 - (void)firePlayStateChanged
 {
-    [_bridge.eventDispatcher sendDeviceEventWithName:kRPAudioPlayerManagerStateChanged body:nil];
+    BOOL isPlaying = _audioPlayer && _audioPlayer.playing;
+    [_bridge.eventDispatcher sendDeviceEventWithName:kRPAudioPlayerManagerStateChanged body:@{
+                                                                                              @"playing": [NSNumber numberWithBool:isPlaying]
+                                                                                              }];
 }
 
 - (void)audioSessionInterrupted

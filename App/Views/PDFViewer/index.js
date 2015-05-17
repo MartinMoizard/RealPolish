@@ -11,6 +11,7 @@ var {
 
 var styles = require("./style");
 var PDFView = require("./PDF");
+var PlayerView = require("../Lesson/Elements/Player")
 
 var PDFViewer = React.createClass({
   render: function() {
@@ -26,7 +27,9 @@ var PDFViewer = React.createClass({
         </TouchableOpacity>
       </View>
       <PDFView file={this.props.lesson.pdf} style={styles.pdf} />
+      <PlayerView />
       </View>
+
     );
   },
 
